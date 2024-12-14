@@ -4,9 +4,10 @@
   #:use-module (srfi srfi-43)
   #:use-module (srfi srfi-9)
 
-  #:export (coords coords-x coords-y coords?
+  #:export (coords <coords> coords-x coords-y coords?
 		   read-grid grid-width grid-height
-		   cell 
+		   copy-grid
+		   cell set-cell!
 		   add scalar distance)
   )  
 (define (grid-width grid)
@@ -27,9 +28,14 @@
   (do ((line (get-line input) (get-line input))
        (rows '() (cons (list->vector (string->list line)) rows)))
       ((eof-object? line) (list->vector (reverse rows)))))
+(define (copy-grid g)
+  (vector-map (lambda (i v) (vector-copy v)) g))
 
 (define (cell coords grid)
   (vector-ref (vector-ref grid (coords-y coords)) (coords-x coords)))
+
+(define (set-cell! coords grid val)
+  (vector-set! (vector-ref grid (coords-y coords)) (coords-x coords) val))
 
 (define (add c1 c2)
   (match (list c1 c2)
