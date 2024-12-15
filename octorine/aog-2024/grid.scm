@@ -8,7 +8,7 @@
 		   read-grid grid-width grid-height
 		   copy-grid
 		   cell set-cell!
-		   add scalar distance)
+		   add sub scalar distance)
   )  
 (define (grid-width grid)
   (cond
@@ -41,6 +41,8 @@
   (match (list c1 c2)
     ((($ <coords> x1 y1) ($ <coords> x2 y2))
      (coords (+ x1 x2) (+ y1 y2)))))
+(define (sub c1 c2)
+  (add c1 (scalar -1 c2)))
 
 (define (scalar s c)
   (match c
