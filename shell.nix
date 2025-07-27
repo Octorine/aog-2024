@@ -9,5 +9,6 @@ mkShell rec {
   guile-gnutls
   emacsPackages.geiser-guile
   ];
+  GUILE_LOAD_PATH=".:...";
 
 }
