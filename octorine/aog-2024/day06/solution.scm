@@ -8,6 +8,14 @@
   
   )
 
+(define-record-type <sim>
+  (sim position direction smap visited)
+  sim?
+  (position sim-position set-sim-position!)
+  (direction sim-direction set-sim-direction!)
+  (smap sim-map)
+  (visited sim-visited set-sim-visited!))
+
 
 (define (p1 filename)
   (call-with-input-file filename
@@ -34,13 +42,7 @@
 		(set! y j)))) v)) g)
     (coords x y)))
 
-(define-record-type <sim>
-  (sim position direction smap visited)
-  sim?
-  (position sim-position set-sim-position!)
-  (direction sim-direction set-sim-direction!)
-  (smap sim-map)
-  (visited sim-visited set-sim-visited!))
+
 
 (define (next-direction direction)
   (match direction
@@ -141,5 +143,6 @@
 	      (begin
 	      #t))))))
 (define my-grid (call-with-input-file "octorine/aog-2024/day06/input" read-grid))
-(let ((input "octorine/aog-2024/day06/sample"))
-  (format #t "Part 1: ~a\nPart 2: ~a\n" (p1 input) (p2 input)))
+(define-public  (run)
+  (let ((input "octorine/aog-2024/day06/sample"))
+    (format #t "Part 1: ~a\nPart 2: ~a\n" (p1 input) (p2 input))))

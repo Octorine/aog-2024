@@ -102,7 +102,8 @@
 
 (define g (call-with-input-file "octorine/aog-2024/day08/input" read-grid))
 
-(let ((input "octorine/aog-2024/day08/input"))
-  (format #t "Part 1: ~a\nPart 2: ~a\n" (p1 input) (p2 input)))
+(define-public (run)
+  (let ((input "octorine/aog-2024/day08/input"))
+    (format #t "Part 1: ~a\nPart 2: ~a\n" (p1 input) (p2 input))))
 
 

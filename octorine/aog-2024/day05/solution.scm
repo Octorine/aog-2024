@@ -25,12 +25,23 @@
    (or (null? ls) #f
      (and (pred (car ls)) (all pred (cdr ls)))))
 
+  (define-record-type <rule>
+    (rule before after)
+    rule?
+    (before rule-before)
+    (after rule-after))
+
+  (define-record-type <update>
+    (update pages)
+    update?
+    (pages update-pages))
+
 (define (update-middle-page u)
   (let ((pages (update-pages u)))
     (list-ref pages (floor (/ (length pages) 2)))))
 
-(define (ordered? update rules)
-  (let ((pages (update-pages update)))
+(define (ordered? u rules)
+  (let ((pages (update-pages u)))
     (all (lambda (rule)
 	   (match rule
 	     (($ <rule> before after)
@@ -38,16 +49,6 @@
 		    (ma (member after pages)))
 		(or (not mb) (not ma) (>= (length mb) (length ma)))))))
 	 rules)))
-
-  (define-record-type <rule>
-    (rule before after)
-    rule?
-    (before rule-before)
-    (after rule-after))
-  (define-record-type <update>
-    (update pages)
-    update?
-    (pages update-pages))
 
   (define (read-rule line)
     (match (map string->number (string-tokenize line char-set:digit))
@@ -80,5 +81,6 @@
 	  
 	  (fold + 0 (map (lambda (u) (update-middle-page (sort-with-rules rules u))) (filter (lambda (u) (not (ordered? u rules))) updates)))))))
 			 
-(let ((input "octorine/aog-2024/day05/input"))
-  (format #t "Part 1: ~a\nPart 2: ~a\n" (p1 input) (p2 input)))
+(define-public (run)
+  (let ((input "octorine/aog-2024/day05/input"))
+    (format #t "Part 1: ~a\nPart 2: ~a\n" (p1 input) (p2 input))))

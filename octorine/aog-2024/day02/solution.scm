@@ -58,11 +58,9 @@
 	  (p1 "octorine/aog-2024/day02/sample")
   	  (p2 "octorine/aog-2024/day02/sample")))
 	  
-(define (run)
+(define-public (run)
     (format #t "Part 1: ~a\nPart 2: ~a\n"
 	  (p1 "octorine/aog-2024/day02/input")
   	  (p2 "octorine/aog-2024/day02/input")))
 
-(run)
-(newline)
 

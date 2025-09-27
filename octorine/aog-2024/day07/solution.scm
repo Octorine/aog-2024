@@ -5,8 +5,13 @@
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-9)
   #:use-module (srfi srfi-43)
-  
   )
+
+(define-record-type <equation>
+  (equation test-value operands)
+  equation?
+  (test-value eq-test-value)
+  (operands eq-operands))
 
 (define (p1 filename)
   (call-with-input-file filename
@@ -15,7 +20,6 @@
 	(do ((current (get-line input) (get-line input)))
 	    ((eof-object? current))
 	  (let ((eq (parse-equation current)))
-;;	    (format #t "~a -> ~a: ~a\n" current eq (has-solution? eq))
 	    (if (has-solution? eq (list + *))
 		(set! total (+ total (eq-test-value eq))))))
 	total))))
@@ -23,12 +27,6 @@
 (define (concatnum b a)
   (string->number
    (string-append (number->string a) (number->string b ))))
-
-(define-record-type <equation>
-  (equation test-value operands)
-  equation?
-  (test-value eq-test-value)
-  (operands eq-operands))
 
 (define (parse-equation line)
   (let ((atoms (string-tokenize line char-set:graphic)))
@@ -79,5 +77,6 @@
 	total))))
 
 
-(let ((input "octorine/aog-2024/day07/input"))
-  (format #t "Part 1: ~a\nPart 2: ~a\n" (p1 input) (p2 input)))
+(define-public (run)
+  (let ((input "octorine/aog-2024/day07/input"))
+    (format #t "Part 1: ~a\nPart 2: ~a\n" (p1 input) (p2 input))))

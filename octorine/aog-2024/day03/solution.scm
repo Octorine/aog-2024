@@ -55,5 +55,6 @@
     (lambda (port)
       (calculate
        (snip-for-p2 (get-string-all port))))))
-(let ((input "octorine/aog-2024/day03/input"))
-  (format #t "Part 1: ~a\nPart 2: ~a\n" (p1 input) (p2 input)))
+(define-public (run)
+  (let ((input "octorine/aog-2024/day03/input"))
+    (format #t "Part 1: ~a\nPart 2: ~a\n" (p1 input) (p2 input))))

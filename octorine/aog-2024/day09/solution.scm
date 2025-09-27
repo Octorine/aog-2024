@@ -193,5 +193,6 @@
 	  (blocks->buffer blocks)))
 ;;------------------------------------------------------------------------------------------  
 
-(let ((input "octorine/aog-2024/day09/input"))
-   (format #t "Day 9\nPart 1: ~a\nPart 2: ~a\n" (p1 input) (p2 input)))
+(define-public (run)
+  (let ((input "octorine/aog-2024/day09/input"))
+    (format #t "Part 1: ~a\nPart 2: ~a\n" (p1 input) (p2 input))))
