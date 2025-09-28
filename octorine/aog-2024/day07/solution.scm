@@ -7,6 +7,7 @@
   #:use-module (srfi srfi-43)
   )
 
+;;;  A record type representing  a line from the puzzle input
 (define-record-type <equation>
   (equation test-value operands)
   equation?
@@ -20,11 +21,14 @@
 	(do ((current (get-line input) (get-line input)))
 	    ((eof-object? current))
 	  (let ((eq (parse-equation current)))
-	    (if (has-solution? eq (list + *))
+	    (if (has-solution?
+		 (eq-test-value eq)
+		 (eq-operands eq)
+		 (list + *))
 		(set! total (+ total (eq-test-value eq))))))
 	total))))
 
-(define (concatnum b a)
+(define (concatnum a b)
   (string->number
    (string-append (number->string a) (number->string b ))))
 
@@ -34,35 +38,19 @@
 	       (string-filter char-set:digit (car atoms)))
 	      (map string->number (cdr atoms)))))
 
-(define (has-solution? eq operators)
-  (any
-   (lambda (ops)
-     (= (operate ops (reverse (eq-operands eq))) (eq-test-value eq)))
-   (choose (- (length (eq-operands eq)) 1) operators)))
-
-(define (flat-map f ls)
-  (apply append (map f ls)))
-
-(define (ap xs ys)
-  (flat-map (lambda (x) (map (lambda (y) (cons x y)) ys))xs))
-
-(define (choose times  population)
-  (cond ((= 0 times)
-	 (map (lambda (x) '()) population))
-	((= 1 times)
-	 (map list population))
-	(else
-	 (ap population (choose (- times 1) population)))))
-
-(define (operate operators operands)
-  (if (null? operators)
-      (car operands)
-      (catch 'numerical-overflow
-	(lambda ()
-	  ((car operators)
-	   (car operands)
-	   (operate (cdr operators) (cdr operands))))
-	(lambda (key . args) 0))))
+(define (has-solution? goal nums operators)
+  (cond
+   ((null? nums) #t)
+   ((null? (cdr nums))
+    (= goal (car nums)))
+   (else
+    (any
+     (lambda (op)
+       (has-solution?
+	goal
+	(cons (op (car nums) (cadr nums)) (cddr nums))
+	operators))
+     operators))))
 
 (define (p2 filename)
   (call-with-input-file filename
@@ -72,7 +60,10 @@
 	    ((eof-object? current))
 	  (let ((eq (parse-equation current)))
 ;;	    (format #t "~a -> ~a: ~a\n" current eq (has-solution? eq))
-	    (if (has-solution? eq (list + * concatnum))
+	    (if (has-solution?
+		 (eq-test-value eq)
+		 (eq-operands eq)
+		 (list + * concatnum))
 		(set! total (+ total (eq-test-value eq))))))
 	total))))
 
