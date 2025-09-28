@@ -1,0 +1,4 @@
+# Don't track input files.
+input
+# Don't track puzzle descriptions, as they can contain solutions if refreshed after you've solved the puzzle.
+puzzle.md
