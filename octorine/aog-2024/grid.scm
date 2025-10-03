@@ -28,6 +28,7 @@
   (do ((line (get-line input) (get-line input))
        (rows '() (cons (list->vector (string->list line)) rows)))
       ((eof-object? line) (list->vector (reverse rows)))))
+
 (define (copy-grid g)
   (vector-map (lambda (i v) (vector-copy v)) g))
 
