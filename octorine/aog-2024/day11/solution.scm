@@ -37,22 +37,6 @@
 (define* (cache-set! v #:key num times)
   (hash-set! cache (cons num times) v))
 
-  (define* (cached-blink #:key num times)
-    (let ((v (cache-get #:num num #:times times)))
-      (or
-       v
-       (let ((new-v
-	      (if (= times 0)
-		  (list num)
-		  (apply
-		   append
-		   (map
-		    (lambda (n)
-		      (cached-blink #:num n #:times (- times 1)))
-		    (blink-num num))))))
-	 (cache-set! new-v #:num num #:times times)
-	 new-v))))
-
 (define* (blink-count #:key num times)
     (let ((v (cache-get #:num num #:times times)))
       (or
@@ -75,9 +59,6 @@
       (do ((atom #f (read input)))
 	((eof-object? atom) (reverse atoms))
 	(if atom (set! atoms (cons atom atoms))))))
-
-(define-public (blink nums)
-  (apply append (map blink-num nums)))
 
 (define-public (blink-num n)
   (let ((ns (number->string n)))
