@@ -7,7 +7,9 @@
  ((octorine aog-2024 day06 solution) #:prefix d06-)
  ((octorine aog-2024 day07 solution) #:prefix d07-)
  ((octorine aog-2024 day08 solution) #:prefix d08-)
- ((octorine aog-2024 day09 solution) #:prefix d09-))
+ ((octorine aog-2024 day09 solution) #:prefix d09-)
+ ((octorine aog-2024 day10 solution) #:prefix d10-)
+ ((octorine aog-2024 day11 solution) #:prefix d11-))
 (define (run-day name fun)
   (display "Day ")
   (display name)
@@ -23,7 +25,10 @@
   (run-day "6" d06-run)
   (run-day "7" d07-run)
   (run-day "8" d08-run)
-  (run-day "9" d09-run))
+  (run-day "9" d09-run)
+  (run-day "10" d10-run)
+  (run-day "11" d11-run))
+
   
 	   
 
