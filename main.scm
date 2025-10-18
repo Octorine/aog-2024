@@ -9,12 +9,16 @@
  ((octorine aog-2024 day08 solution) #:prefix d08-)
  ((octorine aog-2024 day09 solution) #:prefix d09-)
  ((octorine aog-2024 day10 solution) #:prefix d10-)
- ((octorine aog-2024 day11 solution) #:prefix d11-))
+ ((octorine aog-2024 day11 solution) #:prefix d11-)
+ (statprof))
+
 (define (run-day name fun)
-  (display "Day ")
-  (display name)
-  (newline)
-  (fun))
+  (format #t "Dau ~a\n" name)
+  (statprof-reset 0 1 #f)
+  (statprof-start)
+  (fun)
+  (statprof-stop)
+  (format #t "Time: ~a s\n" (statprof-accumulated-time)))
 
 (begin
   (run-day "1" d01-run)
