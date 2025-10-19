@@ -10,7 +10,8 @@
 (define (p1 filename)
   (call-with-input-file filename
     (lambda (input)
-      (let* ((txt  (string-filter char-numeric? (get-string-all input)))
+      (let*
+	  ((txt  (string-filter char-numeric? (get-string-all input)))
 	     (buffer (parse-buffer txt)))
 	(compact-buffer! buffer)
 	(score-buffer buffer)))))
@@ -19,7 +20,8 @@
 (define (p2 filename)
   (call-with-input-file filename
     (lambda (input)
-      (let* ((txt (string-filter char-numeric? (get-string-all input)))
+      (let*
+	  ((txt (string-filter char-numeric? (get-string-all input)))
 	     (blocks (parse-blocks txt)))
 	(set! blocks (compact-blocks! blocks))
 	(score-buffer (blocks->buffer blocks))))))
@@ -74,6 +76,10 @@
 (define (sum items) (fold + 0 items))
 
 (define (maximum items) (fold max 0 items))
+
+;;; Since we're only using this in one place, and that place is a
+;;; sorted list, we can assume ITEMS is sorted;
+
 (define (min-by lt items)
   (if (null? items)
       #f
@@ -87,7 +93,9 @@
 	(blocks '()))
     (string-for-each-index
      (lambda (i)
-       (set! block (next-block block (- (char->integer (string-ref txt i)) zero)))
+       (set! block
+	     (next-block block
+			 (- (char->integer (string-ref txt i)) zero)))
        (set! blocks (cons (copy-block block) blocks)))
      txt)
     (filter (lambda (b) (> (block-size b) 0)) blocks)))
@@ -102,7 +110,8 @@
   (blocks->buffer (parse-blocks txt)))
 
 (define (compact-buffer! buffer)
-  (let loop ((front 0) (back (- (vector-length buffer) 1)))
+  (let loop
+      ((front 0) (back (- (vector-length buffer) 1)))
     (let ((fval (vector-ref buffer front))
 	  (bval (vector-ref buffer back)))
     (cond
@@ -140,32 +149,42 @@
 	(block-name first)
 	(block-position first)
 	(+ (block-size first) (block-size second))
-	'free) rest))))
+	'free)
+       rest))))
       (#t (cons (car free) (defrag (cdr free))))))
 
 (define (compact-blocks! blocks)
-  (let ((free  (sort (filter (lambda (b) (eq? (block-type b) 'free)) blocks) compare-block-position))
-	(filled  (filter (lambda (b) (neq? (block-type b) 'free)) blocks))
-	(more-free '()))
+  (let
+      ((free
+	(sort (filter (lambda (b) (eq? (block-type b) 'free)) blocks)
+	      compare-block-position))
+       (filled
+	(filter (lambda (b) (neq? (block-type b) 'free)) blocks))
+       (more-free '()))
+    (set! free (defrag free))
     (for-each
      (lambda (b)
-       (set! free (defrag free))
-       (let ((f (min-by
-		 compare-block-position
-		 (filter (lambda (f)
-			   (and (eq? (block-type f) 'free)
-				(< (block-position f) (block-position b))
-				(>= (block-size f) (block-size b))))
-			 free))))
+       (let ((f
+	      (find
+	       (lambda (f)
+		 (and (eq? (block-type f) 'free)
+		      (< (block-position f)
+			 (block-position b))
+		      (>= (block-size f) (block-size b))))
+	       free))
+	     )
 	 (if f
 	     (begin
 	       (set! more-free (cons  (make-block
 				       'free
 				       (block-position b)
 				       (block-size b)
-				       'free) more-free))
+				       'free)
+				      more-free))
 	       (set-block-position! b (block-position f))
-	       (set-block-position! f (+ (block-position f) (block-size b)))
+	       (set-block-position! f
+				    (+ (block-position f)
+				       (block-size b)))
 	       (set-block-size!  f (- (block-size f) (block-size b)))))))
      (reverse (sort filled compare-block-position)))
     (append blocks more-free)))
@@ -183,7 +202,10 @@
 ;;------------------------------------------------------------------------------------------
 ;; Some values and functions used for debugging
 
-(define g (string-filter char-numeric? (call-with-input-file "octorine/aog-2024/day09/input" get-string-all)))
+(define g
+  (string-filter char-numeric?
+		 (call-with-input-file "octorine/aog-2024/day09/input"
+		   get-string-all)))
 (define ex "2333133121414131402")
 (define exb (parse-blocks ex))
 (define (reset)   (set! exb (parse-blocks ex)))
