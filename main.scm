@@ -12,26 +12,36 @@
  ((octorine aog-2024 day11 solution) #:prefix d11-)
  (statprof))
 
-(define (run-day name fun)
-  (format #t "Dau ~a\n" name)
-  (statprof-reset 0 1 #f)
-  (statprof-start)
-  (fun)
-  (statprof-stop)
-  (format #t "Time: ~a s\n" (statprof-accumulated-time)))
+
+(define-syntax run
+  (lambda (x)
+    (syntax-case x ()
+      ((_ day)
+       (with-syntax ((fun
+		      (datum->syntax
+		       #'day
+		       (string->symbol
+			(format #f "d~a-run" (syntax->datum #'day))))))
+	 #'(begin
+	     (format #t "Day ~a\n" day)
+	     (statprof-reset 0 1 #f)
+	     (statprof-start)
+	     (fun)
+	     (statprof-stop)
+	     (format #t "Time: ~a s\n" (statprof-accumulated-time))))))))
 
 (begin
-  (run-day "1" d01-run)
-  (run-day "2" d02-run)
-  (run-day "3" d03-run)
-  (run-day "4" d04-run)
-  (run-day "5" d05-run)
-  (run-day "6" d06-run)
-  (run-day "7" d07-run)
-  (run-day "8" d08-run)
-  (run-day "9" d09-run)
-  (run-day "10" d10-run)
-  (run-day "11" d11-run))
+  (run "01")
+  (run "02")
+  (run "03")
+  (run "04")
+  (run "05")
+  (run "06")
+  (run "07")
+  (run "08")
+  (run "09")
+  (run "10")
+  (run "11"))
 
   
 	   
