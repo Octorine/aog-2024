@@ -10,6 +10,7 @@
  ((octorine aog-2024 day09 solution) #:prefix d09-)
  ((octorine aog-2024 day10 solution) #:prefix d10-)
  ((octorine aog-2024 day11 solution) #:prefix d11-)
+ (octorine aog-2024 web)
  (statprof))
 
 
@@ -22,7 +23,9 @@
 		       #'day
 		       (string->symbol
 			(format #f "d~a-run" (syntax->datum #'day))))))
-	 #'(begin
+	 #'(let ((input-path (format #f "octorine/aog-2024/day~a/input" day)))
+	     (if (not (file-exists? input-path))
+		 (download-input day))
 	     (format #t "Day ~a\n" day)
 	     (statprof-reset 0 1 #f)
 	     (statprof-start)
@@ -41,7 +44,8 @@
   (run "08")
   (run "09")
   (run "10")
-  (run "11"))
+  (run "11")
+)
 
   
 	   
