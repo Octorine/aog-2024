@@ -10,6 +10,7 @@
  ((octorine aog-2024 day09 solution) #:prefix d09-)
  ((octorine aog-2024 day10 solution) #:prefix d10-)
  ((octorine aog-2024 day11 solution) #:prefix d11-)
+ ((octorine aog-2024 day12 solution) #:prefix d12-)
  (octorine aog-2024 web)
  (statprof))
 
@@ -45,6 +46,7 @@
   (run "09")
   (run "10")
   (run "11")
+  (run "12")
 )
 
   
