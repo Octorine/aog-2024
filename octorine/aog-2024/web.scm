@@ -29,4 +29,4 @@
 
 (define-public (download-input day)
   (call-with-output-file (format #f "octorine/aog-2024/day~a/input" day)
-    (lambda (output) (write (get-input 2024 day) output))))
+    (lambda (output) (display (get-input 2024 day) output))))
