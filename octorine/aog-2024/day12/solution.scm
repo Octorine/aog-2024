@@ -69,12 +69,17 @@
                     (if (member
                           (list (- x1 x3) (- y1 y3)
                                 (- x2 x4) (- y2 y4)
+                                (- x1 x2) (- y1 y2)
                                 )
-                          '((1 0 1 0)
-                            (1 0 1 0)
-                            (-1 0 -1 0)
-                            (0 1 0 1)
-                            (0 -1 0 -1)))
+                          '((1 0 1 0 0 1)
+                            (-1 0 -1 0 0 1)
+                            (0 1 0 1 1 0)
+                            (0 -1 0 -1 1 0)
+                            (1 0 1 0 0 -1)
+                            (-1 0 -1 0 0 -1)
+                            (0 1 0 1 -1 0)
+                            (0 -1 0 -1 -1 0)
+                            ))
                       (merge-trees disjoint-sides s1 s2)))))
           edgelist))
       edgelist)
@@ -187,16 +192,16 @@
     (p2 "octorine/aog-2024/day12/sample3")))
 
 (define (test4)
-    (format #t "Part 1: ~a\n"
-                (p1 "octorine/aog-2024/day12/sample4"))
-      (format #t "Part 2: ~a\n"
-                  (p2 "octorine/aog-2024/day12/sample4")))
+  (format #t "Part 1: ~a\n"
+    (p1 "octorine/aog-2024/day12/sample4"))
+  (format #t "Part 2: ~a\n"
+    (p2 "octorine/aog-2024/day12/sample4")))
 
 (define (test5)
-    (format #t "Part 1: ~a\n"
-                (p1 "octorine/aog-2024/day12/sample5"))
-      (format #t "Part 2: ~a\n"
-                  (p2 "octorine/aog-2024/day12/sample5")))
+  (format #t "Part 1: ~a\n"
+    (p1 "octorine/aog-2024/day12/sample5"))
+  (format #t "Part 2: ~a\n"
+    (p2 "octorine/aog-2024/day12/sample5")))
 
 (define-public (run)
   (format #t "Part 1: ~a\n"
